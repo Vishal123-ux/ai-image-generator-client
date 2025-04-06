@@ -13,7 +13,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/generate', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
@@ -39,8 +39,7 @@ function App() {
       <Header />
 
       <main className={`main ${results.length > 0 ? 'shrink' : ''}`}>
-
-      <div className="results">
+        <div className="results">
           {results.map((item, index) => (
             <div key={index} className="result-card" onClick={() => setSelectedImage(item)}>
               <img src={item.url} alt="Result" className="result-image" />
@@ -65,13 +64,11 @@ function App() {
             {loading ? 'Generating...' : 'Generate'}
           </button>
         </div>
-
-
       </main>
 
       {selectedImage && (
         <div className="overlay" onClick={() => setSelectedImage(null)}>
-          <div className="popup" onClick={e => e.stopPropagation()}>
+          <div className="popup" onClick={(e) => e.stopPropagation()}>
             <img src={selectedImage.url} alt="Full View" className="popup-image" />
             <p className="popup-prompt">{selectedImage.prompt}</p>
             <a href={selectedImage.url} download className="download-button">Download</a>
